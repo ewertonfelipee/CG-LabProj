@@ -13,10 +13,12 @@ UNIT_DIST = 1
 UNIT_PIXEL = 0.2
 unit_vel = 5
 
-colors ={
-    #"green": [0.1, 1., 0.1, 0.],
+colors = {
     "white": [0.9, 0.9, 0.9, 0.],
-    "blue": [0.9, 0.9, 0.9, 0.]
+    "red": [1.0, 0.0, 0.0, 0.],
+    "green": [0.0, 1.0, 0.0, 0.],
+    "blue": [0.0, 0.0, 1.0, 0.],
+    "yellow": [1.0, 1.0, 0.0, 0.]
 }
 
 def init():
@@ -43,19 +45,65 @@ def move_camera():
               center[0], center[1], center[2],
               up[0]    , up[1]    , up[2])
 
-def draw_floor():  
+def draw_floor():
     glPushMatrix()
     glColor4fv(colors["white"])
-    glScalef(205, 5, 100)
+    glTranslatef(0, -3.0, 0)
+    glScalef(150, 3, 70)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-def draw_wall1():  # parede
+    # Criação do plano na face frontal
+    glPushMatrix()
+    glColor4fv(colors["red"])
+    glTranslatef(0, 0, 7)
+    glScalef(153, 30, 5)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    # Criação do plano na face traseira
+    glPushMatrix()
+    glColor4fv(colors["green"])
+    glTranslatef(0, 0, -7)
+    glScalef(153, 30, 5)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    # Criação do plano na face esquerda
     glPushMatrix()
     glColor4fv(colors["blue"])
-    glScalef(205, 5, 100)
-    glutWireCube(UNIT_PIXEL * 1)
+    glTranslatef(15, 0, 0)
+    glScalef(5, 30, 70)
+    glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
+
+    # Criação do plano na face direita
+    glPushMatrix()
+    glColor4fv(colors["yellow"])
+    glTranslatef(-15, 0, 0)
+    glScalef(5, 30, 70)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+# def draw_front_face():
+#     # Desenha a janela
+#     glPushMatrix()
+#     glColor4fv(colors["blue"])
+#     #glTranslatef(0, 0, -7)
+#     glBegin(GL_QUADS)
+#     glVertex3f(-1, -1, 0.0)
+#     glVertex3f(-1, 1, 0.0)
+#     glVertex3f(1, 1, 0.0)
+#     glVertex3f(1, -1, 0.0)
+#     glEnd()
+#     glColor4fv(colors["white"])
+#     glBegin(GL_QUADS)
+#     glVertex3f(-1, -1, 0.0)
+#     glVertex3f(-1, 1, 0.0)
+#     glVertex3f(1, 1, 0.0)
+#     glVertex3f(1, -1, 0.0)
+#     glEnd()
+#     glPopMatrix()
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
@@ -64,7 +112,8 @@ def display():
     glMatrixMode(GL_MODELVIEW)
 
     draw_floor() #chamada da função floor
-    draw_wall1() # chamada da função wall1
+    #draw_front_face()
+    #draw_wall() # chamada da função wall1
     glutSwapBuffers()
 
 def reshape(width, height):
