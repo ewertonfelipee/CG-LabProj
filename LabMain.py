@@ -48,8 +48,8 @@ def move_camera():
 def draw_floor():
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(0, -3.0, 0)
-    glScalef(150, 3, 70)
+    glTranslatef(0, -5.0, 0)
+    glScalef(153, 3, 70)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -57,7 +57,7 @@ def draw_floor():
     glPushMatrix()
     glColor4fv(colors["red"])
     glTranslatef(0, 0, 7)
-    glScalef(153, 30, 5)
+    glScalef(153, 50, 5)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -65,38 +65,84 @@ def draw_floor():
     glPushMatrix()
     glColor4fv(colors["green"])
     glTranslatef(0, 0, -7)
-    glScalef(153, 30, 5)
+    glScalef(153, 50, 5)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
     # Criação do plano na face esquerda
     glPushMatrix()
     glColor4fv(colors["blue"])
-    glTranslatef(15, 0, 0)
-    glScalef(5, 30, 70)
+    glTranslatef(14.8, 0, 0)
+    glScalef(5, 50, 70)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
     # Criação do plano na face direita
     glPushMatrix()
     glColor4fv(colors["yellow"])
-    glTranslatef(-15, 0, 0)
-    glScalef(5, 30, 70)
+    glTranslatef(-14.8, 0, -2)
+    glScalef(5, 50, 54)
     glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+def draw_door():
+    glPushMatrix()
+    glTranslatef(-14.8, 0.0, 5.0)
+    glScalef(0.6,10.0, 3)
+    glColor3f(0.3, 0.3, 0.3)
+    glutSolidCube(1.0)
+    glPopMatrix()   
+
+def draw_viga():
+    glPushMatrix()
+    glTranslatef(-14.8, 5.0, 0.0)
+    glScalef(1, 0.3, 15)
+    glColor3f(0.1, 0.1, 0.1)
+    glutSolidCube(1.0)
     glPopMatrix()
 
 def draw_table1():
     glPushMatrix()
-    glTranslatef(0.0, 0.0, 0.0)
-    glScalef(15.0,3.0, 3.0)
-    glColor3f(1.0, 1.0, 1.0)
+    glTranslatef(3.0, 0.0, 5.0)
+    glScalef(20.0,0.0, 3.0)
+    glColor3f(0.3, 0.3, 0.3)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_cabinet():
+    glPushMatrix()
+    glTranslatef(4, 3.5, -5.7)
+    glScalef(20.0,2.0, 3.0)
+    glColor3f(0.3, 0.3, 0.3)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    #desenha o pé esquerdo da mesa
+    glPushMatrix()
+    glTranslatef(12, -2.0, 4.0)
+    glScalef(0.5, 4.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    #desenha o pé direito da mesa
+    glPushMatrix()
+    glTranslatef(-6, -2.0, 4.0)
+    glScalef(0.5, 4.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_notebook():
+    glPushMatrix()
+    glTranslatef(0.0, 0.3, 5)
+    glScale(2.0,0.0,1.0)
+    glColor3f(0.0, 0.0, 0.0)
     glutSolidCube(1.0)
     glPopMatrix()
 
 def draw_board():
     glPushMatrix()
-    glTranslatef(-14.3, 2.0, 0.0)
-    glScalef(1,5.0, 20.0)
+    glTranslatef(-14.3, 2.0, -2.0)
+    glScalef(1,5.0, 16.0)
     glColor3f(1.0, 1.0, 1.0)
     glutSolidCube(0.5)
     glPopMatrix()
@@ -105,7 +151,7 @@ def draw_chair():
     glPushMatrix()
 
     # mover a cadeira para a posição desejada
-    glTranslatef(-10.0, 0.0, -2.0)
+    glTranslatef(0.0, 0.0, 3.0)
 
     # definir a escala da cadeira
     glScalef(3.0, 2.0, 2.0)
@@ -168,16 +214,24 @@ def draw_chair():
 
     glPopMatrix()
 
+
+def draws():
+    draw_floor() #chamada da função floor
+    draw_table1()
+    draw_board()
+    draw_chair()
+    draw_cabinet()
+    draw_notebook()
+    draw_door()
+    draw_viga()
+
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
     glEnable(GL_DEPTH_TEST)
     
     glMatrixMode(GL_MODELVIEW)
+    draws()
 
-    draw_floor() #chamada da função floor
-    draw_table1()
-    draw_board()
-    draw_chair()
     #draw_table_with_legs()
     #draw_front_face()
     #draw_wall() # chamada da função wall1
