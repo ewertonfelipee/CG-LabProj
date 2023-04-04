@@ -85,25 +85,88 @@ def draw_floor():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-# def draw_front_face():
-#     # Desenha a janela
-#     glPushMatrix()
-#     glColor4fv(colors["blue"])
-#     #glTranslatef(0, 0, -7)
-#     glBegin(GL_QUADS)
-#     glVertex3f(-1, -1, 0.0)
-#     glVertex3f(-1, 1, 0.0)
-#     glVertex3f(1, 1, 0.0)
-#     glVertex3f(1, -1, 0.0)
-#     glEnd()
-#     glColor4fv(colors["white"])
-#     glBegin(GL_QUADS)
-#     glVertex3f(-1, -1, 0.0)
-#     glVertex3f(-1, 1, 0.0)
-#     glVertex3f(1, 1, 0.0)
-#     glVertex3f(1, -1, 0.0)
-#     glEnd()
-#     glPopMatrix()
+def draw_table1():
+    glPushMatrix()
+    glTranslatef(0.0, 0.0, 0.0)
+    glScalef(15.0,3.0, 3.0)
+    glColor3f(1.0, 1.0, 1.0)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_board():
+    glPushMatrix()
+    glTranslatef(-14.3, 2.0, 0.0)
+    glScalef(1,5.0, 20.0)
+    glColor3f(1.0, 1.0, 1.0)
+    glutSolidCube(0.5)
+    glPopMatrix()
+
+def draw_chair():
+    glPushMatrix()
+
+    # mover a cadeira para a posição desejada
+    glTranslatef(-10.0, 0.0, -2.0)
+
+    # definir a escala da cadeira
+    glScalef(3.0, 2.0, 2.0)
+
+    # definir a cor da cadeira
+    glColor3f(0.5, 0.5, 0.5)
+
+    # desenhar o assento da cadeira
+    glPushMatrix()
+    glTranslatef(0.0, -0.5, 0.0)
+    glScalef(0.8, 0.1, 0.8)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    #desenha a junção esquerda entre o assento o encosto
+    glPushMatrix()
+    glTranslatef(-0.3, 0.0, -0.4)
+    glScalef(0.1, 3.0, 0.1)
+    glutSolidCube(0.3)
+    glPopMatrix()
+
+    #desenha a junção direita entre o assento o encosto
+    glPushMatrix()
+    glTranslatef(0.3, 0.0, -0.3)
+    glScalef(0.1, 3.0, 0.1)
+    glutSolidCube(0.3)
+    glPopMatrix()
+
+    # desenhar os pés da cadeira
+    glPushMatrix()
+    glTranslatef(-0.3, -1.0, 0.3)
+    glScalef(0.1, 1.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslatef(-0.3, -1.0, -0.3)
+    glScalef(0.1, 1.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslatef(0.3, -1.0, 0.3)
+    glScalef(0.1, 1.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslatef(0.3, -1.0, -0.3)
+    glScalef(0.1, 1.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # desenhar o encosto da cadeira
+    glPushMatrix()
+    glTranslatef(0.0, 0.5, -0.4)
+    glScalef(0.8, 1.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPopMatrix()
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
@@ -112,6 +175,10 @@ def display():
     glMatrixMode(GL_MODELVIEW)
 
     draw_floor() #chamada da função floor
+    draw_table1()
+    draw_board()
+    draw_chair()
+    #draw_table_with_legs()
     #draw_front_face()
     #draw_wall() # chamada da função wall1
     glutSwapBuffers()
