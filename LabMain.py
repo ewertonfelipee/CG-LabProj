@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+#import ventilador
 
 WINDOW_WIDTH = 1080
 WINDOW_HEIGHT = 720
@@ -45,6 +46,14 @@ def move_camera():
               center[0], center[1], center[2],
               up[0]    , up[1]    , up[2])
 
+def draw_ceil():
+    glPushMatrix()
+    glColor4fv(colors["white"])
+    glTranslatef(0.0, 5.5, 0.0)
+    glScalef(153, 5, 70)
+    glutWireCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
 def draw_floor():
     glPushMatrix()
     glColor4fv(colors["white"])
@@ -57,7 +66,7 @@ def draw_floor():
     glPushMatrix()
     glColor4fv(colors["red"])
     glTranslatef(0, 0, 7)
-    glScalef(153, 50, 5)
+    glScalef(153, 50, 3)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -65,7 +74,7 @@ def draw_floor():
     glPushMatrix()
     glColor4fv(colors["green"])
     glTranslatef(0, 0, -7)
-    glScalef(153, 50, 5)
+    glScalef(153, 50, 3)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -214,6 +223,65 @@ def draw_chair():
 
     glPopMatrix()
 
+def draw_fan_blades1():
+    angle = 0.0
+    glColor3f(1.0, 1.0, 1.0)
+    glPushMatrix()
+    glTranslate(-10.0, 5.3, 0.0)
+    glScale(0.2, 2, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(-10.0, 4.5, 0.0)
+    glRotatef(angle+120.0, 0.0, 1.0, 0.0)
+    glScale(5.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(-10.0, 4.5, 0.0)
+    glRotatef(angle + 240, 0.0, 1.0, 0.0)
+    glScale(5.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(-10.0, 4.5, 0.0)
+    glRotatef(angle + 180, 0.0, 1.0, 0.0)
+    glScale(4.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_fan_blades2():
+    angle = 0.0
+    glColor3f(1.0, 1.0, 1.0)
+    glPushMatrix()
+    glTranslate(10.0, 5.3, 0.0)
+    glScale(0.2, 2, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(10.0, 4.5, 0.0)
+    glRotatef(angle+120.0, 0.0, 1.0, 0.0)
+    glScale(5.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(10.0, 4.5, 0.0)
+    glRotatef(angle + 240, 0.0, 1.0, 0.0)
+    glScale(5.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslate(10.0, 4.5, 0.0)
+    glRotatef(angle + 180, 0.0, 1.0, 0.0)
+    glScale(4.0, 0, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
 
 def draws():
     draw_floor() #chamada da função floor
@@ -224,6 +292,9 @@ def draws():
     draw_notebook()
     draw_door()
     draw_viga()
+    draw_ceil()
+    draw_fan_blades1()
+    draw_fan_blades2()
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
