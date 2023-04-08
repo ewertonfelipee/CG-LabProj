@@ -10,9 +10,9 @@ WINDOW_HEIGHT = 720
 camera_x, camera_y, camera_z = 0, 1, 0
 camera_yaw, camera_pitch = 0, 0
 
-camera_speed = 0.1
-camera_yaw_speed = 0.5
-camera_pitch_speed = 0.5
+camera_speed = 1
+camera_yaw_speed = 1
+camera_pitch_speed = 1
 
 UNIT_DIST = 1
 UNIT_PIXEL = 0.2
@@ -45,9 +45,9 @@ def move_camera(key, x, y):
 def draw_ceil():
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(0.0, 5.5, 0.0)
-    glScalef(153, 5, 70)
-    glutWireCube(UNIT_PIXEL * 1)
+    glTranslatef(0.0, 5.0, 0.0)
+    glScalef(153, 1, 70)
+    glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
 def draw_floor():
@@ -61,58 +61,110 @@ def draw_floor():
     # Criação do plano na face frontal
     glPushMatrix()
     glColor4fv(colors["red"])
-    glTranslatef(0, 0, 7)
-    glScalef(153, 50, 3)
+    glTranslatef(0, 0, 6.8)
+    glScalef(153, 50, 1)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
     # Criação do plano na face traseira
     glPushMatrix()
     glColor4fv(colors["green"])
-    glTranslatef(0, 0, -7)
-    glScalef(153, 50, 3)
+    glTranslatef(0, 0, -7.2)
+    glScalef(153, 50, 1)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
     # Criação do plano na face esquerda
+    #parte de baixo na face esquerda
     glPushMatrix()
     glColor4fv(colors["blue"])
-    glTranslatef(14.8, 0, 0)
-    glScalef(5, 50, 70)
+    glTranslatef(15.2, -3.2, 0)
+    glScalef(1, 15, 70)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    #parte de cima na face esquerda
+    glPushMatrix()
+    glColor4fv(colors["blue"])
+    glTranslatef(15.2, 3.9, 0)
+    glScalef(1, 10, 70)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    #estrutura que divide as janelas
+    glPushMatrix()
+    glColor4fv(colors["blue"])
+    glTranslatef(15.2, 0.0, 0)
+    glScalef(1, 35, 2)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    #estrutura lateral direita da janela
+    glPushMatrix()
+    glColor4fv(colors["blue"])
+    glTranslatef(15.2, 0.0, 6.5)
+    glScalef(1, 35, 2)
+    glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+    #estrutura lateral esquerda da janela
+    glPushMatrix()
+    glColor4fv(colors["blue"])
+    glTranslatef(15.2, 0.0, -6.8)
+    glScalef(1, 35, 2)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
     # Criação do plano na face direita
     glPushMatrix()
     glColor4fv(colors["yellow"])
-    glTranslatef(-14.8, 0, -2)
-    glScalef(5, 50, 54)
+    glTranslatef(-15.3, 0, -2)
+    glScalef(1, 50, 54)
     glutSolidCube(UNIT_PIXEL * 1)
+    glPopMatrix()
+
+def window1():
+    glPushMatrix()
+    glColor4fv(colors["white"])
     glPopMatrix()
 
 def draw_door():
     glPushMatrix()
-    glTranslatef(-14.8, 0.0, 5.0)
-    glScalef(0.6,10.0, 3)
+    glTranslatef(-15.1, -1.0, 5.0)
+    glScalef(0.2,7.0, 3.2)
     glColor3f(0.3, 0.3, 0.3)
     glutSolidCube(1.0)
     glPopMatrix()   
 
 def draw_viga():
     glPushMatrix()
-    glTranslatef(-14.8, 5.0, 0.0)
-    glScalef(1, 0.3, 15)
-    glColor3f(0.1, 0.1, 0.1)
+    glTranslatef(-15.1, 3.7, 5.0)
+    glScalef(0.2, 2.5, 5)
+    glColor4fv(colors["yellow"])
     glutSolidCube(1.0)
     glPopMatrix()
 
 def draw_table1():
     glPushMatrix()
-    glTranslatef(3.0, 0.0, 5.0)
-    glScalef(20.0,0.0, 3.0)
+    glTranslatef(3.0, -1.8, 5.0)
+    glScalef(20.0,0.5, 3.0)
     glColor3f(0.3, 0.3, 0.3)
     glutSolidCube(1.0)
     glPopMatrix()
+    #desenha o pé esquerdo da mesa
+    glPushMatrix()
+    glTranslatef(12, -3.0, 4.0)
+    glScalef(0.5, 3.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    #desenha o pé direito da mesa
+    glPushMatrix()
+    glTranslatef(-6, -3.0, 4.0)
+    glScalef(0.5, 3.0, 0.1)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
 
 def draw_cabinet():
     glPushMatrix()
@@ -122,23 +174,11 @@ def draw_cabinet():
     glutSolidCube(1.0)
     glPopMatrix()
 
-    #desenha o pé esquerdo da mesa
-    glPushMatrix()
-    glTranslatef(12, -2.0, 4.0)
-    glScalef(0.5, 4.0, 0.1)
-    glutSolidCube(1.0)
-    glPopMatrix()
 
-    #desenha o pé direito da mesa
-    glPushMatrix()
-    glTranslatef(-6, -2.0, 4.0)
-    glScalef(0.5, 4.0, 0.1)
-    glutSolidCube(1.0)
-    glPopMatrix()
 
 def draw_notebook():
     glPushMatrix()
-    glTranslatef(0.0, 0.3, 5)
+    glTranslatef(0.0, -1.3, 5)
     glScale(2.0,0.0,1.0)
     glColor3f(0.0, 0.0, 0.0)
     glutSolidCube(1.0)
@@ -146,7 +186,7 @@ def draw_notebook():
 
 def draw_board():
     glPushMatrix()
-    glTranslatef(-14.3, 2.0, -2.0)
+    glTranslatef(-14.3, 1.0, -2.0)
     glScalef(1,5.0, 16.0)
     glColor3f(1.0, 1.0, 1.0)
     glutSolidCube(0.5)
@@ -156,7 +196,7 @@ def draw_chair():
     glPushMatrix()
 
     # mover a cadeira para a posição desejada
-    glTranslatef(0.0, 0.0, 3.0)
+    glTranslatef(0.0, -1.0, 3.0)
 
     # definir a escala da cadeira
     glScalef(3.0, 2.0, 2.0)
@@ -173,8 +213,9 @@ def draw_chair():
 
     #desenha a junção esquerda entre o assento o encosto
     glPushMatrix()
-    glTranslatef(-0.3, 0.0, -0.4)
+    glTranslatef(-0.3, 0.0, -0.3)
     glScalef(0.1, 3.0, 0.1)
+    glColor3f(0.7, 0.7, 0.7)
     glutSolidCube(0.3)
     glPopMatrix()
 
@@ -182,6 +223,7 @@ def draw_chair():
     glPushMatrix()
     glTranslatef(0.3, 0.0, -0.3)
     glScalef(0.1, 3.0, 0.1)
+    glColor3f(0.7, 0.7, 0.7)
     glutSolidCube(0.3)
     glPopMatrix()
 
@@ -212,7 +254,7 @@ def draw_chair():
 
     # desenhar o encosto da cadeira
     glPushMatrix()
-    glTranslatef(0.0, 0.5, -0.4)
+    glTranslatef(0.0, 0.5, -0.3)
     glScalef(0.8, 1.0, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
@@ -223,27 +265,27 @@ def draw_fan_blades1():
     angle = 0.0
     glColor3f(1.0, 1.0, 1.0)
     glPushMatrix()
-    glTranslate(-10.0, 5.3, 0.0)
+    glTranslate(-10.0, 3.5, 0.0)
     glScale(0.2, 2, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(-10.0, 4.5, 0.0)
+    glTranslate(-10.0, 2.5, 0.0)
     glRotatef(angle+120.0, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(-10.0, 4.5, 0.0)
+    glTranslate(-10.0, 2.5, 0.0)
     glRotatef(angle + 240, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(-10.0, 4.5, 0.0)
+    glTranslate(-10.0, 2.5, 0.0)
     glRotatef(angle + 180, 0.0, 1.0, 0.0)
     glScale(4.0, 0, 0.5)
     glutSolidCube(1.0)
@@ -253,27 +295,27 @@ def draw_fan_blades2():
     angle = 0.0
     glColor3f(1.0, 1.0, 1.0)
     glPushMatrix()
-    glTranslate(10.0, 5.3, 0.0)
+    glTranslate(10.0, 3.5, 0.0)
     glScale(0.2, 2, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(10.0, 4.5, 0.0)
+    glTranslate(10.0, 2.5, 0.0)
     glRotatef(angle+120.0, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(10.0, 4.5, 0.0)
+    glTranslate(10.0, 2.5, 0.0)
     glRotatef(angle + 240, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(10.0, 4.5, 0.0)
+    glTranslate(10.0, 2.5, 0.0)
     glRotatef(angle + 180, 0.0, 1.0, 0.0)
     glScale(4.0, 0, 0.5)
     glutSolidCube(1.0)
