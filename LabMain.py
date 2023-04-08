@@ -1,14 +1,18 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+from math import sin, cos, radians
 #import ventilador
 
 WINDOW_WIDTH = 1080
 WINDOW_HEIGHT = 720
 
-eye = [0, 0, 0]
-center = [0, 0, 0]
-up = [0, 1, 0] 
+camera_x, camera_y, camera_z = 0, 1, 0
+camera_yaw, camera_pitch = 0, 0
+
+camera_speed = 0.1
+camera_yaw_speed = 0.5
+camera_pitch_speed = 0.5
 
 UNIT_DIST = 1
 UNIT_PIXEL = 0.2
@@ -22,29 +26,21 @@ colors = {
     "yellow": [1.0, 1.0, 0.0, 0.]
 }
 
-def init():
-    global eye
-    eye = [0, 20, 40]
-
-    glClearColor(0.0, 0.1, 0.0, 1.0) 
-    glMatrixMode(GL_MODELVIEW)
-    gluLookAt(eye[0]   , eye[1]   , eye[2],
-              center[0], center[1], center[2],
-              up[0]    , up[1]    , up[2])
-
-    glMatrixMode(GL_PROJECTION)
-    gluPerspective(45, WINDOW_WIDTH/WINDOW_HEIGHT, 0.1, 100)
-
-def move_camera():
-    global eye
-    global center
-    global up
-
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
-    gluLookAt(eye[0]   , eye[1]   , eye[2],
-              center[0], center[1], center[2],
-              up[0]    , up[1]    , up[2])
+def move_camera(key, x, y):
+    global camera_x, camera_y, camera_z
+    if key == b'w':
+        camera_x -= 0.1 * sin(radians(camera_y))
+        camera_z -= 0.1 * cos(radians(camera_y))
+    elif key == b's':
+        camera_x += 0.1 * sin(radians(camera_y))
+        camera_z += 0.1 * cos(radians(camera_y))
+    elif key == b'a':
+        camera_x -= 0.1 * cos(radians(camera_y))
+        camera_z += 0.1 * sin(radians(camera_y))
+    elif key == b'd':
+        camera_x += 0.1 * cos(radians(camera_y))
+        camera_z -= 0.1 * sin(radians(camera_y))
+    glutPostRedisplay()
 
 def draw_ceil():
     glPushMatrix()
@@ -298,9 +294,11 @@ def draws():
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
-    glEnable(GL_DEPTH_TEST)
-    
     glMatrixMode(GL_MODELVIEW)
+    glEnable(GL_DEPTH_TEST)
+    glLoadIdentity()
+    gluLookAt(camera_x, camera_y, camera_z, 0, 0, 0, 0, 1, 0)
+    
     draws()
 
     #draw_table_with_legs()
@@ -308,43 +306,14 @@ def display():
     #draw_wall() # chamada da função wall1
     glutSwapBuffers()
 
+def resize(width, height):
+    glViewport(0, 0, width, height)
+    glMatrixMode(GL_PROJECTION)
+    glLoadIdentity()
+    gluPerspective(45, float(width)/float(height), 0.1, 100.0)
+
 def reshape(width, height):
     pass
-
-def keyboard_handler(key, x, y):
-    global eye
-    global center
-    global up
-
-    # move the camera
-    if key == b"w":
-        eye[2] += UNIT_DIST * UNIT_PIXEL * unit_vel
-        center[2] += UNIT_DIST * UNIT_PIXEL * unit_vel
-
-        # print(eye, center, up)
-    elif key == b"s":
-        eye[2] -= UNIT_DIST * UNIT_PIXEL * unit_vel
-        center[2] -= UNIT_DIST * UNIT_PIXEL * unit_vel
-
-    # elif key == b"u":
-    #     up[0] = 1   
-    elif key == b"z":
-        eye[2] -= UNIT_DIST * UNIT_PIXEL * unit_vel
-
-    elif key == b"x":
-        eye[2] += UNIT_DIST * UNIT_PIXEL * unit_vel
-        
-    elif key == b"d":
-        eye[0] += UNIT_DIST * UNIT_PIXEL * unit_vel
-        center[0] += UNIT_DIST * UNIT_PIXEL * unit_vel
-            
-    elif key == b"a":
-        eye[0] -= UNIT_DIST * UNIT_PIXEL * unit_vel
-        center[0] -= UNIT_DIST * UNIT_PIXEL * unit_vel
-
-    move_camera()
-
-    glutPostRedisplay()
 
 glutInit()
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
@@ -352,10 +321,12 @@ glutInitWindowPosition(0,0)
 glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)  
 glutCreateWindow("Laboratory Simulator")
 
-init() 
+#init() 
 
 glutDisplayFunc(display)
 glutReshapeFunc(reshape)
-glutKeyboardFunc(keyboard_handler)
+
+glutReshapeFunc(resize)
+glutKeyboardFunc(move_camera)
 
 glutMainLoop()
