@@ -157,7 +157,7 @@ def draw_viga():
 
 def draw_table1():
     glPushMatrix()
-    glTranslatef(3.0, -1.8, 5.0)
+    glTranslatef(3.0, -1.8, 5.2)
     glScalef(20.0,0.5, 3.0)
     glColor3f(0.3, 0.3, 0.3)
     glutSolidCube(1.0)
