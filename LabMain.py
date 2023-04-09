@@ -272,38 +272,46 @@ def draw_chair():
 
     glPopMatrix()
 
+angle = 0.0
+fan_speed = 1.0
+
 def draw_fan_blades1():
-    angle = 0.0
+    global angle
+    
+    # Desenha a base do ventilador
     glColor3f(1.0, 1.0, 1.0)
     glPushMatrix()
-    glTranslate(-10.0, 3.5, 0.0)
+    glTranslate(-10.0, 5.3, 0.0)
     glScale(0.2, 2, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
+    # Desenha as lâminas do ventilador
     glPushMatrix()
-    glTranslate(-10.0, 2.5, 0.0)
+    glTranslate(-10.0, 4.5, 0.0)
     glRotatef(angle+120.0, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(-10.0, 2.5, 0.0)
+    glTranslate(-10.0, 4.5, 0.0)
     glRotatef(angle + 240, 0.0, 1.0, 0.0)
     glScale(5.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslate(-10.0, 2.5, 0.0)
+    glTranslate(-10.0, 4.5, 0.0)
     glRotatef(angle + 180, 0.0, 1.0, 0.0)
     glScale(4.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
 def draw_fan_blades2():
-    angle = 0.0
+    global angle
+
+#    angle = 0.0
     glColor3f(1.0, 1.0, 1.0)
     glPushMatrix()
     glTranslate(10.0, 3.5, 0.0)
@@ -331,6 +339,20 @@ def draw_fan_blades2():
     glScale(4.0, 0, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
+
+def update_fan_blades(value):
+    global angle, fan_speed
+    
+    # Atualiza o ângulo da rotação
+    angle += fan_speed
+    if angle >= 360:
+        angle -= 360
+    
+    # Solicita uma nova renderização da cena
+    glutPostRedisplay()
+    
+    # Define o tempo para o próximo callback
+    glutTimerFunc(10, update_fan_blades, 0)
 
 def draws():
     draw_floor() #chamada da função floor
@@ -380,6 +402,8 @@ glutCreateWindow("Laboratory Simulator")
 
 glutDisplayFunc(display)
 glutReshapeFunc(reshape)
+
+glutTimerFunc(10, update_fan_blades, 0)
 
 glutReshapeFunc(resize)
 glutKeyboardFunc(move_camera)
