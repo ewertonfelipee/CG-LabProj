@@ -139,13 +139,36 @@ def window2():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
+door_direction = 1
+door_angle = 0.0
+
+def update_door_angle(value):
+    global door_angle, door_direction, door_animation
+    if door_animation:
+        door_angle += door_direction * 5 # Incrementa o ângulo da porta
+        if door_angle > 90 or door_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
+            door_angle = max(0, min(door_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
+            door_animation = False # Finaliza a animação
+        glutPostRedisplay() # Redesenha a cena
+        glutTimerFunc(50, update_door_angle, 0) # Chama a função novamente após um intervalo de tempo
+
+def toggle_door():
+    global door_angle, door_direction, door_animation
+    door_animation = True # Começa a animação
+    door_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
+    glutTimerFunc(50, update_door_angle, 0) # Inicia a animação da porta
+    glutPostRedisplay() # Redesenha a cena
+
 def draw_door():
+    global door_angle
     glPushMatrix()
-    glTranslatef(-12.0, -1.2, 5.2)
-    glScalef(0.2,7.0, 2.9)
+    glTranslatef(-10.6, -1.2, 5.2)
+    glRotatef(door_angle, 0.0, 1.0, 0.0) # adiciona a rotação em torno do eixo Y
+    glTranslatef(-1.4, 0.0, 0.0) # move a porta para que ela gire em torno do canto esquerdo
+    glScalef(0.2, 7.25, 3.0)
     glColor3f(0.3, 0.3, 0.3)
     glutSolidCube(1.0)
-    glPopMatrix()   
+    glPopMatrix() 
 
 def draw_viga():
     glPushMatrix()
@@ -392,6 +415,11 @@ def resize(width, height):
 def reshape(width, height):
     pass
 
+def special_callback(key, x, y):
+    if key == GLUT_KEY_F1:
+        toggle_door()
+
+
 glutInit()
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
 glutInitWindowPosition(0,0)
@@ -406,6 +434,7 @@ glutReshapeFunc(reshape)
 glutTimerFunc(10, update_fan_blades, 0)
 
 glutReshapeFunc(resize)
+glutSpecialFunc(special_callback)
 glutKeyboardFunc(move_camera)
 
 glutMainLoop()
