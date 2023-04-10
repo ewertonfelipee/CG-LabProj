@@ -50,7 +50,7 @@ def draw_ceil():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-def draw_floor():
+def draw_floor_and_walls():
     glPushMatrix()
     glColor4fv(colors["white"])
     glTranslatef(0, -5.0, 0)
@@ -378,7 +378,7 @@ def update_fan_blades(value):
     glutTimerFunc(10, update_fan_blades, 0)
 
 def draws():
-    draw_floor() #chamada da função floor
+    draw_floor_and_walls() #chamada da função floor
     draw_table1()
     draw_board()
     draw_chair()
