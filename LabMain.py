@@ -372,7 +372,7 @@ def update_fan_blades(value):
     glutPostRedisplay()
     
     # Define o tempo para o próximo callback
-    glutTimerFunc(10, update_fan_blades, 0)
+    glutTimerFunc(20, update_fan_blades, 0)
 
 def draws():
     draw_floor_and_walls() #chamada da função floor
