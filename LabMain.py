@@ -20,10 +20,7 @@ unit_vel = 5
 
 colors = {
     "white": [0.9, 0.9, 0.9, 0.],
-    "red": [1.0, 0.0, 0.0, 0.],
-    "green": [0.0, 1.0, 0.0, 0.],
-    "blue": [0.0, 0.0, 1.0, 0.],
-    "yellow": [1.0, 1.0, 0.0, 0.]
+    "gray" : [0.77, 0.77, 0.77, 0.]
 }
 
 def move_camera(key, x, y):
@@ -60,7 +57,7 @@ def draw_floor_and_walls():
 
     # Criação do plano na face frontal
     glPushMatrix()
-    glColor4fv(colors["red"])
+    glColor4fv(colors["gray"])
     glTranslatef(0, 0, 6.8)
     glScalef(120, 50, 1)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -68,7 +65,7 @@ def draw_floor_and_walls():
 
     # Criação do plano na face traseira
     glPushMatrix()
-    glColor4fv(colors["green"])
+    glColor4fv(colors["gray"])
     glTranslatef(0, 0, -6.8)
     glScalef(120, 50, 1)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -77,7 +74,7 @@ def draw_floor_and_walls():
     # Criação do plano na face esquerda
     #parte de baixo na face esquerda
     glPushMatrix()
-    glColor4fv(colors["blue"])
+    glColor4fv(colors["gray"])
     glTranslatef(12.0, -3.2, 0)
     glScalef(1, 15, 70)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -85,7 +82,7 @@ def draw_floor_and_walls():
 
     #parte de cima na face esquerda
     glPushMatrix()
-    glColor4fv(colors["blue"])
+    glColor4fv(colors["gray"])
     glTranslatef(12.0, 3.9, 0)
     glScalef(1, 10, 70)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -93,7 +90,7 @@ def draw_floor_and_walls():
 
     #estrutura que divide as janelas
     glPushMatrix()
-    glColor4fv(colors["blue"])
+    glColor4fv(colors["gray"])
     glTranslatef(12.0, 0.0, 0)
     glScalef(1, 35, 2)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -101,7 +98,7 @@ def draw_floor_and_walls():
 
     #estrutura lateral direita da janela
     glPushMatrix()
-    glColor4fv(colors["blue"])
+    glColor4fv(colors["gray"])
     glTranslatef(12.0, 0.0, 6.8)
     glScalef(1, 35, 2)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -109,7 +106,7 @@ def draw_floor_and_walls():
 
     #estrutura lateral esquerda da janela
     glPushMatrix()
-    glColor4fv(colors["blue"])
+    glColor4fv(colors["gray"])
     glTranslatef(12.0, 0.0, -6.8)
     glScalef(1, 35, 2)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -117,7 +114,7 @@ def draw_floor_and_walls():
 
     # Criação do plano na face direita
     glPushMatrix()
-    glColor4fv(colors["yellow"])
+    glColor4fv(colors["gray"])
     glTranslatef(-12.0, 0, -1.5)
     glScalef(1, 50, 52)
     glutSolidCube(UNIT_PIXEL * 1)
@@ -166,7 +163,7 @@ def draw_door():
     glRotatef(door_angle, 0.0, 1.0, 0.0) # adiciona a rotação em torno do eixo Y
     glTranslatef(-1.4, 0.0, 0.0) # move a porta para que ela gire em torno do canto esquerdo
     glScalef(0.2, 7.25, 3.0)
-    glColor3f(0.3, 0.3, 0.3)
+    glColor3f(0.6, 0.6, 0.6)
     glutSolidCube(1.0)
     glPopMatrix() 
 
@@ -174,7 +171,7 @@ def draw_viga():
     glPushMatrix()
     glTranslatef(-12.0, 3.7, 4.2)
     glScalef(0.2, 2.5, 5)
-    glColor4fv(colors["yellow"])
+    glColor4fv(colors["gray"])
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -182,7 +179,7 @@ def draw_table1():
     glPushMatrix()
     glTranslatef(3.0, -1.8, 5.2)
     glScalef(15.0,0.5, 3.0)
-    glColor3f(0.3, 0.3, 0.3)
+    glColor3f(0.4, 0.4, 0.4)
     glutSolidCube(1.0)
     glPopMatrix()
     #desenha o pé esquerdo da mesa
@@ -204,7 +201,7 @@ def draw_cabinet():
     glPushMatrix()
     glTranslatef(4, 2.8, -5.3)
     glScalef(15,1.5, 3.0)
-    glColor3f(0.3, 0.3, 0.3)
+    glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -234,7 +231,7 @@ def draw_chair():
     glScalef(3.0, 2.0, 2.0)
 
     # definir a cor da cadeira
-    glColor3f(0.5, 0.5, 0.5)
+    glColor3f(0.0, 0.0, 0.0)
 
     # desenhar o assento da cadeira
     glPushMatrix()
@@ -247,7 +244,7 @@ def draw_chair():
     glPushMatrix()
     glTranslatef(-0.3, -0.2, -0.3)
     glScalef(0.1, 3.0, 0.1)
-    glColor3f(0.7, 0.7, 0.7)
+    glColor3f(0.0, 0.0, 0.0)
     glutSolidCube(0.3)
     glPopMatrix()
 
@@ -255,7 +252,7 @@ def draw_chair():
     glPushMatrix()
     glTranslatef(0.3, -0.2, -0.3)
     glScalef(0.1, 3.0, 0.1)
-    glColor3f(0.7, 0.7, 0.7)
+    glColor3f(0.0, 0.0, 0.0)
     glutSolidCube(0.3)
     glPopMatrix()
 
