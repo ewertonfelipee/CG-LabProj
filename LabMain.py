@@ -258,26 +258,26 @@ def draw_chair():
 
     # desenhar os pés da cadeira
     glPushMatrix()
-    glTranslatef(-0.3, -1.0, 0.3)
-    glScalef(0.1, 0.7, 0.1)
+    glTranslatef(-0.3, -1.2, 0.3)
+    glScalef(0.1,1, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslatef(-0.3, -1.0, -0.3)
-    glScalef(0.1, 0.7, 0.1)
+    glTranslatef(-0.3, -1.2, -0.3)
+    glScalef(0.1, 1, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslatef(0.3, -1.0, 0.3)
-    glScalef(0.1, 0.7, 0.1)
+    glTranslatef(0.3, -1.2, 0.3)
+    glScalef(0.1, 1, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
     glPushMatrix()
-    glTranslatef(0.3, -1.0, -0.3)
-    glScalef(0.1, 0.7, 0.1)
+    glTranslatef(0.3, -1.2, -0.3)
+    glScalef(0.1, 1, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
