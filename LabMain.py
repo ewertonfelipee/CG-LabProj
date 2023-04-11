@@ -317,7 +317,7 @@ def draw_chair():
     glPopMatrix()
 
 angle = 0.0
-fan_speed = 1.0
+fan_speed = 1.0 # Para mudar o sentido da rotação define para -1.0
 
 def draw_fan_blades1():
     global angle
