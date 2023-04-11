@@ -23,22 +23,6 @@ colors = {
     "gray" : [0.77, 0.77, 0.77, 0.]
 }
 
-def move_camera(key, x, y):
-    global camera_x, camera_y, camera_z
-    if key == b'w':
-        camera_x -= 0.1 * sin(radians(camera_y))
-        camera_z -= 0.1 * cos(radians(camera_y))
-    elif key == b's':
-        camera_x += 0.1 * sin(radians(camera_y))
-        camera_z += 0.1 * cos(radians(camera_y))
-    elif key == b'a':
-        camera_x -= 0.1 * cos(radians(camera_y))
-        camera_z += 0.1 * sin(radians(camera_y))
-    elif key == b'd':
-        camera_x += 0.1 * cos(radians(camera_y))
-        camera_z -= 0.1 * sin(radians(camera_y))
-    glutPostRedisplay()
-
 def draw_ceil():
     glPushMatrix()
     glColor4fv(colors["white"])
@@ -120,18 +104,60 @@ def draw_floor_and_walls():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-def window1():
+window_direction = 1
+window_angle = 0.0
+
+def update_window_angle(value):
+    global window_angle, window_direction, window_animation
+    if window_animation:
+        window_angle += window_direction * 5 # Incrementa o ângulo da porta
+        if window_angle > 90 or window_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
+            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
+            window_animation = False # Finaliza a animação
+        glutPostRedisplay() # Redesenha a cena
+        glutTimerFunc(50, update_window_angle, 0) # Chama a função novamente após um intervalo de tempo
+
+def toggle_window():
+    global door_angle, window_direction, window_animation
+    window_animation = True # Começa a animação
+    window_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
+    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da porta
+    glutPostRedisplay()
+
+window_direction = 1
+window_angle = 0.0
+
+def update_window_angle(value):
+    global window_angle, window_direction, window_animation
+    if window_animation:
+        window_angle += window_direction * 5 # Incrementa o ângulo da porta
+        if window_angle > 90 or window_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
+            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
+            window_animation = False # Finaliza a animação
+        glutPostRedisplay() # Redesenha a cena
+        glutTimerFunc(50, update_window_angle, 0) # Chama a função novamente após um intervalo de tempo
+
+def toggle_window():
+    global door_angle, window_direction, window_animation
+    window_animation = True # Começa a animação
+    window_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
+    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da porta
+    glutPostRedisplay()
+
+def windows():
+    global window_angle
     glPushMatrix()
     glColor4fv(colors["white"])
     glTranslatef(12.0, 0.6, -3.4)
+    glRotatef(window_angle, 0, 1, 0)
     glScalef(1, 22, 31.8)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-def window2():
     glPushMatrix()
     glColor4fv(colors["white"])
     glTranslatef(12.0, 0.6, 3.35)
+    glRotatef(window_angle, 0, 1, 0)
     glScalef(1, 22, 31.0)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
@@ -199,8 +225,8 @@ def draw_table1():
 
 def draw_cabinet():
     glPushMatrix()
-    glTranslatef(4, 2.8, -5.3)
-    glScalef(15,1.5, 3.0)
+    glTranslatef(2, 2.8, -5.3)
+    glScalef(13,1.5, 3.0)
     glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
     glPopMatrix()
@@ -386,8 +412,7 @@ def draws():
     draw_ceil()
     draw_fan_blades1()
     draw_fan_blades2()
-    window1()
-    window2()
+    windows()
 
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # Clear color and depth buffers
@@ -398,10 +423,25 @@ def display():
     
     draws()
 
-    #draw_table_with_legs()
-    #draw_front_face()
-    #draw_wall() # chamada da função wall1
     glutSwapBuffers()
+
+def keyboard(key, x, y):
+    global camera_x, camera_y, camera_z, window_angle
+    if key == b'w':
+        camera_x -= 0.1 * sin(radians(camera_y))
+        camera_z -= 0.1 * cos(radians(camera_y))
+    elif key == b's':
+        camera_x += 0.1 * sin(radians(camera_y))
+        camera_z += 0.1 * cos(radians(camera_y))
+    elif key == b'a':
+        camera_x -= 0.1 * cos(radians(camera_y))
+        camera_z += 0.1 * sin(radians(camera_y))
+    elif key == b'd':
+        camera_x += 0.1 * cos(radians(camera_y))
+        camera_z -= 0.1 * sin(radians(camera_y))
+    
+    glutPostRedisplay()
+
 
 def resize(width, height):
     glViewport(0, 0, width, height)
@@ -416,7 +456,10 @@ def special_callback(key, x, y):
     if key == GLUT_KEY_F1:
         toggle_door()
 
+    if key == GLUT_KEY_F2:
+        toggle_window()
 
+        
 glutInit()
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
 glutInitWindowPosition(0,0)
@@ -428,10 +471,10 @@ glutCreateWindow("Laboratory Simulator")
 glutDisplayFunc(display)
 glutReshapeFunc(reshape)
 
-glutTimerFunc(10, update_fan_blades, 0)
+glutTimerFunc(20, update_fan_blades, 0)
 
 glutReshapeFunc(resize)
 glutSpecialFunc(special_callback)
-glutKeyboardFunc(move_camera)
+glutKeyboardFunc(keyboard)
 
 glutMainLoop()
