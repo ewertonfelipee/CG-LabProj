@@ -110,9 +110,9 @@ window_angle = 0.0
 def update_window_angle(value):
     global window_angle, window_direction, window_animation
     if window_animation:
-        window_angle += window_direction * 5 # Incrementa o ângulo da porta
+        window_angle += window_direction * 3 # Incrementa o ângulo da janela
         if window_angle > 90 or window_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
-            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
+            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da janela dentro dos limites permitidos
             window_animation = False # Finaliza a animação
         glutPostRedisplay() # Redesenha a cena
         glutTimerFunc(50, update_window_angle, 0) # Chama a função novamente após um intervalo de tempo
@@ -120,28 +120,8 @@ def update_window_angle(value):
 def toggle_window():
     global door_angle, window_direction, window_animation
     window_animation = True # Começa a animação
-    window_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
-    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da porta
-    glutPostRedisplay()
-
-window_direction = 1
-window_angle = 0.0
-
-def update_window_angle(value):
-    global window_angle, window_direction, window_animation
-    if window_animation:
-        window_angle += window_direction * 5 # Incrementa o ângulo da porta
-        if window_angle > 90 or window_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
-            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
-            window_animation = False # Finaliza a animação
-        glutPostRedisplay() # Redesenha a cena
-        glutTimerFunc(50, update_window_angle, 0) # Chama a função novamente após um intervalo de tempo
-
-def toggle_window():
-    global door_angle, window_direction, window_animation
-    window_animation = True # Começa a animação
-    window_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
-    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da porta
+    window_direction *= -1 # Inverte a direção da janela (abrir <-> fechar)
+    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da janela
     glutPostRedisplay()
 
 def windows():
