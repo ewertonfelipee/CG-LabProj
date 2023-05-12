@@ -108,40 +108,75 @@ def draw_floor_and_walls():
 window_direction = 1
 window_angle = 0.0
 
-def update_window_angle(value):
-    global window_angle, window_direction, window_animation
-    if window_animation:
-        window_angle += window_direction * 3 # Incrementa o ângulo da janela
-        if window_angle > 90 or window_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
-            window_angle = max(0, min(window_angle, 90)) # Trava o ângulo da janela dentro dos limites permitidos
-            window_animation = False # Finaliza a animação
-        glutPostRedisplay() # Redesenha a cena
-        glutTimerFunc(50, update_window_angle, 0) # Chama a função novamente após um intervalo de tempo
-
-def toggle_window():
-    global door_angle, window_direction, window_animation
-    window_animation = True # Começa a animação
-    window_direction *= -1 # Inverte a direção da janela (abrir <-> fechar)
-    glutTimerFunc(50, update_window_angle, 0) # Inicia a animação da janela
-    glutPostRedisplay()
+angles = [0, 0, 0, 0, 0]
+opening = False
+animation_start = None
+animation_duration = 2.0
 
 def windows():
-    global window_angle
+    global angles
+
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(12.0, 0.6, -3.4)
-    glRotatef(window_angle, 0, 1, 0)
-    glScalef(1, 22, 31.8)
-    glutSolidCube(UNIT_PIXEL * 1)
+    glTranslatef(14.5, 0.6, -3.4)
+
+    for i in range(5):
+        glPushMatrix()
+        glTranslatef(-2.49, 0.0, (i - 2) * 1.25)
+        glRotatef(angles[i], 0, 1, 0)
+        glScalef(0.5, 23.09, 7.5)
+        glutSolidCube(UNIT_PIXEL * 1)
+        glPopMatrix()
+
     glPopMatrix()
 
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(12.0, 0.6, 3.35)
-    glRotatef(window_angle, 0, 1, 0)
-    glScalef(1, 22, 31.0)
-    glutSolidCube(UNIT_PIXEL * 1)
+    glTranslatef(14.5, 0.6, 3.35)
+
+    for i in range(5):
+        glPushMatrix()
+        glTranslatef(-2.49, 0.0, (i - 2) * 1.25)
+        glRotatef(angles[i], 0, 1, 0)
+        glScalef(0.5, 23.09, 7.5)
+        glutSolidCube(UNIT_PIXEL * 1)
+        glPopMatrix()
+
     glPopMatrix()
+
+def animate():
+    global angles, opening, animation_start
+
+    current_time = time.time()
+
+    if opening:
+        elapsed_time = current_time - animation_start
+        progress = elapsed_time / animation_duration
+
+        if progress >= 1.0:
+            progress = 1.0
+            opening = False
+            angles = [90, 90, 90, 90, 90] 
+            animation_start = None  
+            glutPostRedisplay()
+
+        angle_step = 90 * progress
+        angles = [angle_step, angle_step, angle_step, angle_step, angle_step]
+        glutPostRedisplay()
+
+    elif animation_start is not None:
+        elapsed_time = current_time - animation_start
+        progress = elapsed_time / animation_duration
+
+        if progress >= 1.0:
+            progress = 1.0
+            angles = [0, 0, 0, 0, 0]
+            animation_start = None
+        else:
+            angle_step = 90 * (1 - progress)
+            angles = [angle_step, angle_step, angle_step, angle_step, angle_step]
+
+        glutPostRedisplay()
 
 door_angle = 0
 door_open = False
@@ -434,7 +469,6 @@ def keyboard(key, x, y):
     
     glutPostRedisplay()
 
-
 def resize(width, height):
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
@@ -445,19 +479,26 @@ def reshape(width, height):
     pass
 
 def special_callback(key, x, y):
-    global door_open
+    global door_open, opening, animation_start, angles
     if key == GLUT_KEY_F1:
         door_open = not door_open
         animate_door(door_open)
+    if key == GLUT_KEY_F2 and all(angle == 0 for angle in angles):
+        if animation_start is None:
+            animation_start = time.time()
+            opening = True
+            glutIdleFunc(animate)
+    elif key == GLUT_KEY_F3 and all(angle == 90 for angle in angles):
+        if animation_start is None:
+            animation_start = time.time()
+            opening = False
+            glutIdleFunc(animate)
 
-        
 glutInit()
 glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
 glutInitWindowPosition(0,0)
 glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)  
 glutCreateWindow("Laboratory Simulator")
-
-#init() 
 
 glutDisplayFunc(display)
 glutReshapeFunc(reshape)
