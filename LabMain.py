@@ -2,6 +2,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from math import sin, cos, radians
+import time
 #import ventilador
 
 WINDOW_WIDTH = 1080
@@ -142,36 +143,47 @@ def windows():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
-door_direction = 1
-door_angle = 0.0
-
-def update_door_angle(value):
-    global door_angle, door_direction, door_animation
-    if door_animation:
-        door_angle += door_direction * 5 # Incrementa o ângulo da porta
-        if door_angle > 90 or door_angle < 0: # Se a porta chegou no ângulo máximo ou mínimo
-            door_angle = max(0, min(door_angle, 90)) # Trava o ângulo da porta dentro dos limites permitidos
-            door_animation = False # Finaliza a animação
-        glutPostRedisplay() # Redesenha a cena
-        glutTimerFunc(50, update_door_angle, 0) # Chama a função novamente após um intervalo de tempo
-
-def toggle_door():
-    global door_angle, door_direction, door_animation
-    door_animation = True # Começa a animação
-    door_direction *= -1 # Inverte a direção da porta (abrir <-> fechar)
-    glutTimerFunc(50, update_door_angle, 0) # Inicia a animação da porta
-    glutPostRedisplay() # Redesenha a cena
+door_angle = 0
+door_open = False
+door_speed = 40
+start_time = None
 
 def draw_door():
     global door_angle
     glPushMatrix()
     glTranslatef(-10.6, -1.2, 5.2)
-    glRotatef(door_angle, 0.0, 1.0, 0.0) # adiciona a rotação em torno do eixo Y
-    glTranslatef(-1.4, 0.0, 0.0) # move a porta para que ela gire em torno do canto esquerdo
+    glTranslatef(-1.33, 3.625, 1.5)
+    glRotatef(door_angle, 0.0, 1.0, 0.0)
+    glTranslatef(0.0, -3.625, -1.5)
     glScalef(0.2, 7.25, 3.0)
     glColor3f(0.6, 0.6, 0.6)
     glutSolidCube(1.0)
-    glPopMatrix() 
+    glPopMatrix()
+
+def animate_door(open):
+    global door_angle, door_speed, start_time
+    if open:
+        if door_angle > -90:
+            if start_time is None:
+                start_time = time.time()
+            elapsed_time = time.time() - start_time
+            door_angle -= door_speed * elapsed_time
+            start_time = time.time()
+            glutPostRedisplay()
+            glutTimerFunc(10, animate_door, 1)
+        else:
+            start_time = None
+    else:
+        if door_angle < 0:
+            if start_time is None:
+                start_time = time.time()
+            elapsed_time = time.time() - start_time
+            door_angle += door_speed * elapsed_time
+            start_time = time.time()
+            glutPostRedisplay()
+            glutTimerFunc(10, animate_door, 0)
+        else:
+            start_time = None
 
 def draw_viga():
     glPushMatrix()
@@ -433,11 +445,10 @@ def reshape(width, height):
     pass
 
 def special_callback(key, x, y):
+    global door_open
     if key == GLUT_KEY_F1:
-        toggle_door()
-
-    if key == GLUT_KEY_F2:
-        toggle_window()
+        door_open = not door_open
+        animate_door(door_open)
 
         
 glutInit()
