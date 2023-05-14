@@ -258,9 +258,101 @@ def draw_cabinet():
     glutSolidCube(1.0)
     glPopMatrix()
 
+def draw_lamp():
+    # base da luminária
+    glPushMatrix()
+    glTranslatef(2, -1.5, 5)
+    glScalef(0.8, 0.2, 0.8)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # haste da luminária
+    glPushMatrix()
+    glTranslatef(2, -1, 5)
+    glScalef(0.1, 1.5, 0.1)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # cabeça da luminária
+    glPushMatrix()
+    glTranslatef(2, 0.0, 5)
+    glScalef(0.8, 0.5, 0.8)
+    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_lamp2():
+    # base da luminária
+    glPushMatrix()
+    glTranslatef(7, -1.5, 5)
+    glScalef(0.8, 0.2, 0.8)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # haste da luminária
+    glPushMatrix()
+    glTranslatef(7, -1, 5)
+    glScalef(0.1, 1.5, 0.1)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # cabeça da luminária
+    glPushMatrix()
+    glTranslatef(7, 0.0, 5)
+    glScalef(0.8, 0.5, 0.8)
+    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_lamp3():
+    # base da luminária
+    glPushMatrix()
+    glTranslatef(-3, -1.5, 5)
+    glScalef(0.8, 0.2, 0.8)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # haste da luminária
+    glPushMatrix()
+    glTranslatef(-3, -1, 5)
+    glScalef(0.1, 1.5, 0.1)
+    glColor3f(0.5, 0.5, 0.5)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+    # cabeça da luminária
+    glPushMatrix()
+    glTranslatef(-3, 0.0, 5)
+    glScalef(0.8, 0.5, 0.8)
+    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glutSolidCube(1.0)
+    glPopMatrix()
+
 def draw_notebook():
     glPushMatrix()
     glTranslatef(0.0, -1.3, 5)
+    glScale(2.0,0.0,1.0)
+    glColor3f(0.0, 0.0, 0.0)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+def draw_notebook2():
+    glPushMatrix()
+    glTranslatef(4, -1.3, 5)
+    glScale(2.0,0.0,1.0)
+    glColor3f(0.0, 0.0, 0.0)
+    glutSolidCube(1.0)
+    glPopMatrix()
+
+
+def draw_notebook3():
+    glPushMatrix()
+    glTranslatef(8, -1.3, 5)
     glScale(2.0,0.0,1.0)
     glColor3f(0.0, 0.0, 0.0)
     glutSolidCube(1.0)
@@ -433,7 +525,12 @@ def draws():
     draw_board()
     draw_chair()
     draw_cabinet()
+    draw_lamp()
+    draw_lamp2()
+    draw_lamp3()
     draw_notebook()
+    draw_notebook2()
+    draw_notebook3()
     draw_door()
     draw_viga()
     draw_ceil()
