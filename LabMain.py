@@ -279,7 +279,7 @@ def draw_lamp():
     glPushMatrix()
     glTranslatef(2, 0.0, 5)
     glScalef(0.8, 0.5, 0.8)
-    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glColor3f(1.0, 1.0, 1.0)  # amarelo
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -304,7 +304,7 @@ def draw_lamp2():
     glPushMatrix()
     glTranslatef(7, 0.0, 5)
     glScalef(0.8, 0.5, 0.8)
-    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glColor3f(1.0, 1.0, 1.0)  # amarelo
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -329,7 +329,7 @@ def draw_lamp3():
     glPushMatrix()
     glTranslatef(-3, 0.0, 5)
     glScalef(0.8, 0.5, 0.8)
-    glColor3f(1.0, 1.0, 0.0)  # amarelo
+    glColor3f(1.0, 1.0, 1.0)  # amarelo
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -550,7 +550,7 @@ def display():
     glutSwapBuffers()
 
 def keyboard(key, x, y):
-    global camera_x, camera_y, camera_z, window_angle
+    global camera_x, camera_y, camera_z, window_angle, light_ambient, light_specular, light_diffuse
     if key == b'w':
         camera_x -= 0.1 * sin(radians(camera_y))
         camera_z -= 0.1 * cos(radians(camera_y))
@@ -563,6 +563,16 @@ def keyboard(key, x, y):
     elif key == b'd':
         camera_x += 0.1 * cos(radians(camera_y))
         camera_z -= 0.1 * sin(radians(camera_y))
+
+    #controle da iluminação
+    if key == b'r':
+        glEnable(GL_LIGHT0)
+    elif key == b't':
+        glDisable(GL_LIGHT0)
+    elif key == b'f':
+        glEnable(GL_LIGHT1)
+    elif key == b'g':
+        glDisable(GL_LIGHT1)
     
     glutPostRedisplay()
 
@@ -591,19 +601,55 @@ def special_callback(key, x, y):
             opening = False
             glutIdleFunc(animate)
 
-glutInit()
-glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
-glutInitWindowPosition(0,0)
-glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)  
-glutCreateWindow("Laboratory Simulator")
 
-glutDisplayFunc(display)
-glutReshapeFunc(reshape)
+def setup_lighting():
+    glEnable(GL_COLOR_MATERIAL)
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT0)
+    glEnable(GL_LIGHT1)
+    glEnable(GL_DEPTH_TEST)
+    glShadeModel(GL_SMOOTH)
+    glEnable(GL_NORMALIZE)
 
-glutTimerFunc(20, update_fan_blades, 0)
+    glMaterialfv(GL_FRONT, GL_SPECULAR, [0.1, 0.1, 0.1, 1])
 
-glutReshapeFunc(resize)
-glutSpecialFunc(special_callback)
-glutKeyboardFunc(keyboard)
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, [0.8, 0.8, 0.8, 1])
+    # glLightModelfv(GL_LIGHT_MODEL_AMBIENT, [0.2, 0.2, 0.2, 1])
 
-glutMainLoop()
+    glLightfv(GL_LIGHT0, GL_SPECULAR, [0.7, 0.7, 0.7, 1])
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.3, 0.3, 0.3, 1])
+    glLightfv(GL_LIGHT0, GL_POSITION, [0, 0, 0, 1])
+
+    # spot light
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, [1, 1, 1, 1])
+    glLightfv(GL_LIGHT1, GL_SPECULAR, [1, 1, 1, 1])
+
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, [0, -1, 0])
+    glLightfv(GL_LIGHT1, GL_POSITION, [0, 6, -1])
+
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 20)
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0)
+
+
+def main():
+    glutInit()
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB)
+    glutInitWindowPosition(0,0)
+    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT)  
+    glutCreateWindow("Laboratory Simulator")
+
+    #iluminação
+    setup_lighting()
+
+    glutDisplayFunc(display)
+    glutReshapeFunc(reshape)
+
+    glutTimerFunc(20, update_fan_blades, 0)
+
+    glutReshapeFunc(resize)
+    glutSpecialFunc(special_callback)
+    glutKeyboardFunc(keyboard)
+
+    glutMainLoop()
+
+main()
