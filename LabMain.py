@@ -346,7 +346,7 @@ def draw_notebook(texture_notebook):
     glPushMatrix()
     glTranslatef(0.0, -1.3, 5)
     glScale(1.0,0.0,1.0)
-    glColor3f(0.9, 0.7, 0.9)
+    glColor3f(0.5, 0.5, 0.5)
     #glutSolidCube(1.0)
 
     glBegin(GL_QUADS)
