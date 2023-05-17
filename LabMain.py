@@ -3,7 +3,7 @@ from OpenGL.GLU import *
 from OpenGL.GLUT import *
 from math import sin, cos, radians
 import time
-#import ventilador
+import pygame
 
 WINDOW_WIDTH = 1080
 WINDOW_HEIGHT = 720
@@ -22,6 +22,11 @@ unit_vel = 5
 colors = {
     "white": [0.9, 0.9, 0.9, 0.],
     "gray" : [0.77, 0.77, 0.77, 0.]
+}
+
+#textures
+textures = {
+    "notebook" : None
 }
 
 def draw_ceil():
@@ -333,20 +338,39 @@ def draw_lamp3():
     glutSolidCube(1.0)
     glPopMatrix()
 
-def draw_notebook():
+def draw_notebook(texture_notebook):
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, texture_notebook)
+
     glPushMatrix()
     glTranslatef(0.0, -1.3, 5)
-    glScale(2.0,0.0,1.0)
-    glColor3f(0.0, 0.0, 0.0)
-    glutSolidCube(1.0)
+    glScale(1.0,0.0,1.0)
+    glColor3f(0.9, 0.7, 0.9)
+    #glutSolidCube(1.0)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
 
 def draw_notebook2():
     glPushMatrix()
     glTranslatef(4, -1.3, 5)
     glScale(2.0,0.0,1.0)
     glColor3f(0.0, 0.0, 0.0)
-    glutSolidCube(1.0)
+    #draw_vertex_cube()
     glPopMatrix()
 
 
@@ -355,7 +379,7 @@ def draw_notebook3():
     glTranslatef(8, -1.3, 5)
     glScale(2.0,0.0,1.0)
     glColor3f(0.0, 0.0, 0.0)
-    glutSolidCube(1.0)
+    #draw_vertex_cube()
     glPopMatrix()
 
 def draw_board():
@@ -523,12 +547,12 @@ def draws():
     draw_floor_and_walls() #chamada da função floor
     draw_table1()
     draw_board()
-    draw_chair()
+    #draw_chair()
     draw_cabinet()
     draw_lamp()
     draw_lamp2()
     draw_lamp3()
-    draw_notebook()
+    draw_notebook(textures["notebook"])
     draw_notebook2()
     draw_notebook3()
     draw_door()
@@ -601,6 +625,30 @@ def special_callback(key, x, y):
             opening = False
             glutIdleFunc(animate)
 
+def load_texture(image):
+    textureSurface = pygame.image.load(image)
+    textureData = pygame.image.tostring(textureSurface, "RGBA", 1)
+    width = textureSurface.get_width()
+    height = textureSurface.get_height()
+
+    texid = glGenTextures(1)
+
+    glBindTexture(GL_TEXTURE_2D, texid)
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
+
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData)
+
+    glGenerateMipmap(GL_TEXTURE_2D)
+
+    return texid
+
 
 def setup_lighting():
     glEnable(GL_COLOR_MATERIAL)
@@ -632,6 +680,9 @@ def setup_lighting():
 
 
 def main():
+
+    global textures
+
     glutInit()
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB)
     glutInitWindowPosition(0,0)
@@ -649,6 +700,9 @@ def main():
     glutReshapeFunc(resize)
     glutSpecialFunc(special_callback)
     glutKeyboardFunc(keyboard)
+
+    #textures
+    textures["notebook"] = load_texture("textures\\notebook1.png")
 
     glutMainLoop()
 
