@@ -31,7 +31,8 @@ textures = {
     "notebook3" : None,
     "floor" : None,
     "ceil" : None,
-    "board" : None
+    "board" : None,
+    "table" : None
 }
 
 def draw_ceil(ceil):
@@ -48,11 +49,11 @@ def draw_ceil(ceil):
     glBegin(GL_QUADS)
     glTexCoord2f(0.0, 0.0)
     glVertex3f(-0.8, 0.0, -0.8)
-    glTexCoord2f(100.0, 0.0)
+    glTexCoord2f(5.0, 0.0)
     glVertex3f(0.8, 0.0, -0.8)
-    glTexCoord2f(100.0, 100.0)
+    glTexCoord2f(5.0, 5.0)
     glVertex3f(0.8, 0.0, 0.8)
-    glTexCoord2f(0.0, 100.0)
+    glTexCoord2f(0.0, 5.0)
     glVertex3f(-0.8, 0.0, 0.8)
 
     glEnd()
@@ -73,11 +74,11 @@ def draw_floor(floor):
     glBegin(GL_QUADS)
     glTexCoord2f(0.0, 0.0)
     glVertex3f(-0.8, 0.0, -0.8)
-    glTexCoord2f(500.0, 0.0)
+    glTexCoord2f(7.0, 0.0)
     glVertex3f(0.8, 0.0, -0.8)
-    glTexCoord2f(1000.0, 500.0)
+    glTexCoord2f(7.0, 7.0)
     glVertex3f(0.8, 0.0, 0.8)
-    glTexCoord2f(0.0, 500.0)
+    glTexCoord2f(0.0, 7.0)
     glVertex3f(-0.8, 0.0, 0.8)
 
     glEnd()
@@ -274,24 +275,44 @@ def draw_viga():
     glutSolidCube(1.0)
     glPopMatrix()
 
-def draw_table1():
+def draw_table1(table):
+
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, table)
+
     glPushMatrix()
     glTranslatef(3.0, -1.8, 5.2)
-    glScalef(15.0,0.5, 3.0)
-    glColor3f(0.4, 0.4, 0.4)
-    glutSolidCube(1.0)
+    glScalef(9.0,0.5, 2.0)
+    glColor3f(0.9, 0.9, 0.9)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
+    
     #desenha o pé esquerdo da mesa
     glPushMatrix()
     glTranslatef(9, -3.5, 4.0)
-    glScalef(0.5, 3.0, 0.1)
+    glScalef(0.5, 3.3, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
     #desenha o pé direito da mesa
     glPushMatrix()
     glTranslatef(-4, -3.5, 4.0)
-    glScalef(0.5, 3.0, 0.1)
+    glScalef(0.5, 3.3, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
@@ -307,7 +328,7 @@ def draw_cabinet():
 def draw_lamp():
     # base da luminária
     glPushMatrix()
-    glTranslatef(2, -1.5, 5)
+    glTranslatef(2, -1.6, 5)
     glScalef(0.8, 0.2, 0.8)
     glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
@@ -332,7 +353,7 @@ def draw_lamp():
 def draw_lamp2():
     # base da luminária
     glPushMatrix()
-    glTranslatef(7, -1.5, 5)
+    glTranslatef(6.2, -1.6, 5)
     glScalef(0.8, 0.2, 0.8)
     glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
@@ -340,7 +361,7 @@ def draw_lamp2():
 
     # haste da luminária
     glPushMatrix()
-    glTranslatef(7, -1, 5)
+    glTranslatef(6.2, -1, 5)
     glScalef(0.1, 1.5, 0.1)
     glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
@@ -348,7 +369,7 @@ def draw_lamp2():
 
     # cabeça da luminária
     glPushMatrix()
-    glTranslatef(7, 0.0, 5)
+    glTranslatef(6.2, 0.0, 5)
     glScalef(0.8, 0.5, 0.8)
     glColor3f(1.0, 1.0, 1.0)  # amarelo
     glutSolidCube(1.0)
@@ -357,7 +378,7 @@ def draw_lamp2():
 def draw_lamp3():
     # base da luminária
     glPushMatrix()
-    glTranslatef(-3, -1.5, 5)
+    glTranslatef(-3, -1.6, 5)
     glScalef(0.8, 0.2, 0.8)
     glColor3f(0.5, 0.5, 0.5)
     glutSolidCube(1.0)
@@ -385,7 +406,7 @@ def draw_notebook(texture_notebook):
     glBindTexture(GL_TEXTURE_2D, texture_notebook)
 
     glPushMatrix()
-    glTranslatef(0.0, -1.3, 5)
+    glTranslatef(0.0, -1.6, 5)
     glScale(1.0,0.0,1.0)
     glColor3f(0.5, 0.5, 0.5)
 
@@ -412,7 +433,7 @@ def draw_notebook2(texture_notebook2):
     glBindTexture(GL_TEXTURE_2D, texture_notebook2)
 
     glPushMatrix()
-    glTranslatef(4.5, -1.3, 5)
+    glTranslatef(4, -1.6, 5)
     glScale(1.0,0.0,1.0)
     glColor3f(0.5, 0.5, 0.5)
 
@@ -439,7 +460,7 @@ def draw_notebook3(texture_notebook3):
     glBindTexture(GL_TEXTURE_2D, texture_notebook3)
 
     glPushMatrix()
-    glTranslatef(8, -1.3, 5)
+    glTranslatef(8, -1.6, 5)
     glScale(1.0,0.0,1.0)
     glColor3f(0.5, 0.5, 0.5)
 
@@ -651,7 +672,7 @@ def draw_sphere():
 def draws():
     draw_walls() #chamada da função floor
     draw_floor(textures["floor"])
-    draw_table1()
+    draw_table1(textures["table"])
     draw_board(textures["board"])
     draw_sphere()
     draw_chair()
@@ -786,6 +807,16 @@ def setup_lighting():
     glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0)
 
 
+def func_textures():
+    #textures
+    textures["notebook"] = load_texture("textures\\notebook1.png")
+    textures["notebook2"] = load_texture("textures\\notebook1.png")
+    textures["notebook3"] = load_texture("textures\\notebook1.png")
+    textures["floor"] = load_texture("textures\\granite.webp")
+    textures["ceil"] = load_texture("textures\\parede1.jpg")
+    textures["board"] = load_texture("textures\\board.png")
+    textures["table"] = load_texture("textures\\mesa.jpg")
+
 def main():
 
     global textures
@@ -809,12 +840,7 @@ def main():
     glutKeyboardFunc(keyboard)
 
     #textures
-    textures["notebook"] = load_texture("textures\\notebook1.png")
-    textures["notebook2"] = load_texture("textures\\notebook1.png")
-    textures["notebook3"] = load_texture("textures\\notebook1.png")
-    textures["floor"] = load_texture("textures\\granite.webp")
-    textures["ceil"] = load_texture("textures\\parede1.jpg")
-    textures["board"] = load_texture("textures\\board.png")
+    func_textures()
 
     glutMainLoop()
 
