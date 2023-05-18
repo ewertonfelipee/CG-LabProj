@@ -513,7 +513,7 @@ def draw_chair():
     glPushMatrix()
 
     # mover a cadeira para a posição desejada
-    glTranslatef(0.0, -1.0, 3.0)
+    glTranslatef(0.0, -1.5, 3.0)
 
     # definir a escala da cadeira
     glScalef(3.0, 2.0, 2.0)
@@ -715,6 +715,12 @@ def keyboard(key, x, y):
     elif key == b'd':
         camera_x += 0.1 * cos(radians(camera_y))
         camera_z -= 0.1 * sin(radians(camera_y))
+    elif key == b'q':
+        #camera_z -= 0.5 * sin(radians(camera_x))
+        camera_y += -0.1 * cos(radians(camera_x))
+    elif key == b'z':
+        #camera_z -= 0.5 * sin(radians(camera_x))
+        camera_y -= -0.1 * cos(radians(camera_x))
 
     #controle da iluminação
     if key == b'r':
