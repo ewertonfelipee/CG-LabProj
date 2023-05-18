@@ -11,7 +11,7 @@ WINDOW_HEIGHT = 720
 camera_x, camera_y, camera_z = 0, 1, 0
 camera_yaw, camera_pitch = 0, 0
 
-camera_speed = 1
+camera_speed = 5
 camera_yaw_speed = 1
 camera_pitch_speed = 1
 
@@ -20,30 +20,71 @@ UNIT_PIXEL = 0.2
 unit_vel = 5
 
 colors = {
-    "white": [0.9, 0.9, 0.9, 0.],
-    "gray" : [0.77, 0.77, 0.77, 0.]
+    "white": [0.9, 0.9, 0.9, 0.0],
+    "gray" : [0.77, 0.77, 0.77, 0.0],
+    "green": [0.0, 1.0, 0.0, 1.0]
 }
 
 #textures
 textures = {
-    "notebook" : None
+    "notebook" : None,
+    "notebook2" : None,
+    "notebook3" : None,
+    "floor" : None,
+    "ceil" : None
 }
 
-def draw_ceil():
-    glPushMatrix()
-    glColor4fv(colors["white"])
-    glTranslatef(0.0, 5.0, 0.0)
-    glScalef(120, 1, 70)
-    glutSolidCube(UNIT_PIXEL * 1)
-    glPopMatrix()
+def draw_ceil(ceil):
 
-def draw_floor_and_walls():
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, ceil)
+
     glPushMatrix()
+    glTranslatef(0.0, 5.0, 0.0)
+    glScalef(15.3, 3, 9)
     glColor4fv(colors["white"])
-    glTranslatef(0, -5.0, 0)
-    glScalef(120, 3, 70)
-    glutSolidCube(UNIT_PIXEL * 1)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(100.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(100.0, 100.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 100.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
     glPopMatrix()
+    glDisable(GL_TEXTURE_2D)
+
+def draw_floor(floor):
+
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, floor)
+
+    glPushMatrix()
+    glTranslatef(0, -5.0, 0)
+    glScalef(15.3, 3, 9)
+    glColor4fv(colors["white"])
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(500.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(1000.0, 500.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 500.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
+    glPopMatrix()
+    glDisable(GL_TEXTURE_2D)
+
+def draw_walls():
 
     # Criação do plano na face frontal
     glPushMatrix()
@@ -66,7 +107,7 @@ def draw_floor_and_walls():
     glPushMatrix()
     glColor4fv(colors["gray"])
     glTranslatef(12.0, -3.2, 0)
-    glScalef(1, 15, 70)
+    glScalef(1, 17, 70)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -242,14 +283,14 @@ def draw_table1():
     glPopMatrix()
     #desenha o pé esquerdo da mesa
     glPushMatrix()
-    glTranslatef(9, -3.0, 4.0)
+    glTranslatef(9, -3.5, 4.0)
     glScalef(0.5, 3.0, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
 
     #desenha o pé direito da mesa
     glPushMatrix()
-    glTranslatef(-4, -3.0, 4.0)
+    glTranslatef(-4, -3.5, 4.0)
     glScalef(0.5, 3.0, 0.1)
     glutSolidCube(1.0)
     glPopMatrix()
@@ -347,7 +388,6 @@ def draw_notebook(texture_notebook):
     glTranslatef(0.0, -1.3, 5)
     glScale(1.0,0.0,1.0)
     glColor3f(0.5, 0.5, 0.5)
-    #glutSolidCube(1.0)
 
     glBegin(GL_QUADS)
     glTexCoord2f(0.0, 0.0)
@@ -365,22 +405,59 @@ def draw_notebook(texture_notebook):
 
     glDisable(GL_TEXTURE_2D)
 
-def draw_notebook2():
+def draw_notebook2(texture_notebook2):
+
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, texture_notebook2)
+
     glPushMatrix()
-    glTranslatef(4, -1.3, 5)
-    glScale(2.0,0.0,1.0)
-    glColor3f(0.0, 0.0, 0.0)
-    #draw_vertex_cube()
+    glTranslatef(4.5, -1.3, 5)
+    glScale(1.0,0.0,1.0)
+    glColor3f(0.5, 0.5, 0.5)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
+
     glPopMatrix()
 
+    glDisable(GL_TEXTURE_2D)
 
-def draw_notebook3():
+def draw_notebook3(texture_notebook3):
+
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, texture_notebook3)
+
     glPushMatrix()
     glTranslatef(8, -1.3, 5)
-    glScale(2.0,0.0,1.0)
-    glColor3f(0.0, 0.0, 0.0)
-    #draw_vertex_cube()
+    glScale(1.0,0.0,1.0)
+    glColor3f(0.5, 0.5, 0.5)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.8, 0.0, -0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.8, 0.0, 0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(-0.8, 0.0, 0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
 
 def draw_board():
     glPushMatrix()
@@ -543,21 +620,31 @@ def update_fan_blades(value):
     # Define o tempo para o próximo callback
     glutTimerFunc(20, update_fan_blades, 0)
 
+def draw_sphere():
+    glPushMatrix()
+    glColor4fv(colors["white"])
+    glTranslatef(0, 20, 0)  # Coordenadas da esfera no topo do laboratório
+    glutSolidSphere(3.0, 32, 32)  # Ajuste o tamanho da esfera conforme necessário
+    glPopMatrix()
+
+
 def draws():
-    draw_floor_and_walls() #chamada da função floor
+    draw_walls() #chamada da função floor
+    draw_floor(textures["floor"])
     draw_table1()
     draw_board()
-    #draw_chair()
+    draw_sphere()
+    draw_chair()
     draw_cabinet()
     draw_lamp()
     draw_lamp2()
     draw_lamp3()
     draw_notebook(textures["notebook"])
-    draw_notebook2()
-    draw_notebook3()
+    draw_notebook2(textures["notebook2"])
+    draw_notebook3(textures["notebook3"])
     draw_door()
     draw_viga()
-    draw_ceil()
+    draw_ceil(textures["ceil"])
     draw_fan_blades1()
     draw_fan_blades2()
     windows()
@@ -575,16 +662,16 @@ def display():
 
 def keyboard(key, x, y):
     global camera_x, camera_y, camera_z, window_angle, light_ambient, light_specular, light_diffuse
-    if key == b'w':
+    if key == b'a':
         camera_x -= 0.1 * sin(radians(camera_y))
         camera_z -= 0.1 * cos(radians(camera_y))
-    elif key == b's':
+    elif key == b'd':
         camera_x += 0.1 * sin(radians(camera_y))
         camera_z += 0.1 * cos(radians(camera_y))
-    elif key == b'a':
+    elif key == b's':
         camera_x -= 0.1 * cos(radians(camera_y))
         camera_z += 0.1 * sin(radians(camera_y))
-    elif key == b'd':
+    elif key == b'w':
         camera_x += 0.1 * cos(radians(camera_y))
         camera_z -= 0.1 * sin(radians(camera_y))
 
@@ -703,6 +790,10 @@ def main():
 
     #textures
     textures["notebook"] = load_texture("textures\\notebook1.png")
+    textures["notebook2"] = load_texture("textures\\notebook1.png")
+    textures["notebook3"] = load_texture("textures\\notebook1.png")
+    textures["floor"] = load_texture("textures\\granite.webp")
+    textures["ceil"] = load_texture("textures\\parede1.jpg")
 
     glutMainLoop()
 
