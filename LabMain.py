@@ -32,7 +32,8 @@ textures = {
     "floor" : None,
     "ceil" : None,
     "board" : None,
-    "table" : None
+    "table" : None,
+    "viga" : None
 }
 
 def draw_ceil(ceil):
@@ -267,13 +268,32 @@ def animate_door(open):
         else:
             start_time = None
 
-def draw_viga():
+def draw_viga(viga):
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, viga)
+
     glPushMatrix()
     glTranslatef(-12.0, 3.7, 5.3)
-    glScalef(0.2, 2.5, 3.2)
-    glColor4fv(colors["gray"])
-    glutSolidCube(1.0)
+    glScalef(0.2, 1.7, 2.0)
+    glColor4fv(colors["white"])
+    glRotatef(90, 1, 0, 0)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(0.0, 0.8, 0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.0, -0.8, 0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.0, -0.8, -0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(0.0, 0.8, -0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
 
 def draw_table1(table):
 
@@ -824,7 +844,7 @@ def draws():
     draw_notebook2(textures["notebook2"])
     draw_notebook3(textures["notebook3"])
     draw_door()
-    draw_viga()
+    draw_viga(textures["viga"])
     draw_ceil(textures["ceil"])
     draw_fan_blades1()
     draw_fan_blades2()
@@ -962,6 +982,7 @@ def func_textures():
     textures["ceil"] = load_texture("textures\\parede1.jpg")
     textures["board"] = load_texture("textures\\board.png")
     textures["table"] = load_texture("textures\\mesa.jpg")
+    textures["viga"] = load_texture("textures\\parede1.jpg")
 
 def main():
 
