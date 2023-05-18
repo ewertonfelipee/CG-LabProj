@@ -184,7 +184,7 @@ def draw_walls2(wall_board):
     glPushMatrix()
     glColor4fv(colors["gray"])
     glTranslatef(-12.0, 0, -1.5)
-    glScalef(1, 10, 6.5)
+    glScalef(1, 6.3, 6.5)
     glColor4fv(colors["white"])
     glRotatef(90, 1, 0, 0)
 
