@@ -21,8 +21,7 @@ unit_vel = 5
 
 colors = {
     "white": [0.9, 0.9, 0.9, 0.0],
-    "gray" : [0.77, 0.77, 0.77, 0.0],
-    "green": [0.0, 1.0, 0.0, 1.0]
+    "gray" : [0.77, 0.77, 0.77, 0.0]
 }
 
 #textures
@@ -31,7 +30,8 @@ textures = {
     "notebook2" : None,
     "notebook3" : None,
     "floor" : None,
-    "ceil" : None
+    "ceil" : None,
+    "board" : None
 }
 
 def draw_ceil(ceil):
@@ -459,13 +459,34 @@ def draw_notebook3(texture_notebook3):
 
     glDisable(GL_TEXTURE_2D)
 
-def draw_board():
+def draw_board(board):
+
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, board)
+
     glPushMatrix()
-    glTranslatef(-11.8, 1.0, -2.0)
-    glScalef(0.5,8.0, 16.0)
-    glColor3f(1.0, 1.0, 1.0)
-    glutSolidCube(0.5)
+    glTranslatef(-11.8, 0.4, -2.0)
+    glScalef(4.0, 2.0, 5.0)
+    glColor4fv(colors["white"])
+    glRotatef(90, 1, 0, 0)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(0.0, 0.8, 0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.0, -0.8, 0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.0, -0.8, -0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(0.0, 0.8, -0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
+
 
 def draw_chair():
     glPushMatrix()
@@ -575,8 +596,7 @@ def draw_fan_blades1():
 
 def draw_fan_blades2():
     global angle
-
-#    angle = 0.0
+    #angle = 0.0
     glColor3f(1.0, 1.0, 1.0)
     glPushMatrix()
     glTranslate(8.0, 3.5, 0.0)
@@ -623,7 +643,7 @@ def update_fan_blades(value):
 def draw_sphere():
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(0, 20, 0)  # Coordenadas da esfera no topo do laboratório
+    glTranslatef(0, 15, 0)  # Coordenadas da esfera no topo do laboratório
     glutSolidSphere(3.0, 32, 32)  # Ajuste o tamanho da esfera conforme necessário
     glPopMatrix()
 
@@ -632,7 +652,7 @@ def draws():
     draw_walls() #chamada da função floor
     draw_floor(textures["floor"])
     draw_table1()
-    draw_board()
+    draw_board(textures["board"])
     draw_sphere()
     draw_chair()
     draw_cabinet()
@@ -662,16 +682,16 @@ def display():
 
 def keyboard(key, x, y):
     global camera_x, camera_y, camera_z, window_angle, light_ambient, light_specular, light_diffuse
-    if key == b'a':
+    if key == b'w':
         camera_x -= 0.1 * sin(radians(camera_y))
         camera_z -= 0.1 * cos(radians(camera_y))
-    elif key == b'd':
+    elif key == b's':
         camera_x += 0.1 * sin(radians(camera_y))
         camera_z += 0.1 * cos(radians(camera_y))
-    elif key == b's':
+    elif key == b'a':
         camera_x -= 0.1 * cos(radians(camera_y))
         camera_z += 0.1 * sin(radians(camera_y))
-    elif key == b'w':
+    elif key == b'd':
         camera_x += 0.1 * cos(radians(camera_y))
         camera_z -= 0.1 * sin(radians(camera_y))
 
@@ -794,6 +814,7 @@ def main():
     textures["notebook3"] = load_texture("textures\\notebook1.png")
     textures["floor"] = load_texture("textures\\granite.webp")
     textures["ceil"] = load_texture("textures\\parede1.jpg")
+    textures["board"] = load_texture("textures\\board.png")
 
     glutMainLoop()
 
