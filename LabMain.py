@@ -32,8 +32,7 @@ textures = {
     "floor" : None,
     "ceil" : None,
     "board" : None,
-    "table" : None,
-    "viga" : None
+    "table" : None
 }
 
 def draw_ceil(ceil):
@@ -86,7 +85,9 @@ def draw_floor(floor):
     glPopMatrix()
     glDisable(GL_TEXTURE_2D)
 
-def draw_walls():
+def draw_walls1(wall_texture):
+    glEnable(GL_TEXTURE_2D)
+    glBindTexture(GL_TEXTURE_2D, wall_texture)
 
     # Criação do plano na face frontal
     glPushMatrix()
@@ -104,6 +105,35 @@ def draw_walls():
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
+    glPushMatrix()
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-12, -5, 6.699)
+    glTexCoord2f(5.0, 0.0)
+    glVertex3f(12, -5, 6.699)
+    glTexCoord2f(5.0, 5.0)
+    glVertex3f(12, 5, 6.699)
+    glTexCoord2f(0.0, 5.0)
+    glVertex3f(-12, 5, 6.699)
+    glEnd()
+    glPopMatrix()
+    
+    glPushMatrix()
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(-12, -5, -6.699)
+    glTexCoord2f(5.0, 0.0)
+    glVertex3f(12, -5, -6.699)
+    glTexCoord2f(5.0, 5.0)
+    glVertex3f(12, 5, -6.699)
+    glTexCoord2f(0.0, 5.0)
+    glVertex3f(-12, 5, -6.699)
+    glEnd()
+    glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
+
+def draw_walls2():
     # Criação do plano na face esquerda
     #parte de baixo na face esquerda
     glPushMatrix()
@@ -117,7 +147,7 @@ def draw_walls():
     glPushMatrix()
     glColor4fv(colors["gray"])
     glTranslatef(12.0, 3.9, 0)
-    glScalef(1, 10, 70)
+    glScalef(1, 11, 70)
     glutSolidCube(UNIT_PIXEL * 1)
     glPopMatrix()
 
@@ -166,13 +196,13 @@ def windows():
 
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(14.5, 0.6, -3.4)
+    glTranslatef(14.5, 0.65, -3.4)
 
     for i in range(5):
         glPushMatrix()
         glTranslatef(-2.49, 0.0, (i - 2) * 1.25)
         glRotatef(angles[i], 0, 1, 0)
-        glScalef(0.5, 23.09, 7.5)
+        glScalef(0.5, 21.5, 7.5)
         glutSolidCube(UNIT_PIXEL * 1)
         glPopMatrix()
 
@@ -180,13 +210,13 @@ def windows():
 
     glPushMatrix()
     glColor4fv(colors["white"])
-    glTranslatef(14.5, 0.6, 3.35)
+    glTranslatef(14.5, 0.65, 3.35)
 
     for i in range(5):
         glPushMatrix()
         glTranslatef(-2.49, 0.0, (i - 2) * 1.25)
         glRotatef(angles[i], 0, 1, 0)
-        glScalef(0.5, 23.09, 7.5)
+        glScalef(0.5, 21.5, 7.5)
         glutSolidCube(UNIT_PIXEL * 1)
         glPopMatrix()
 
@@ -238,7 +268,7 @@ def draw_door():
     glTranslatef(-1.33, 3.625, 1.5)
     glRotatef(door_angle, 0.0, 1.0, 0.0)
     glTranslatef(0.0, -3.625, -1.5)
-    glScalef(0.2, 7.25, 3.0)
+    glScalef(0.2, 7.5, 3.0)
     glColor3f(0.6, 0.6, 0.6)
     glutSolidCube(1.0)
     glPopMatrix()
@@ -268,32 +298,13 @@ def animate_door(open):
         else:
             start_time = None
 
-def draw_viga(viga):
-    glEnable(GL_TEXTURE_2D)
-
-    glBindTexture(GL_TEXTURE_2D, viga)
-
+def draw_viga():
     glPushMatrix()
     glTranslatef(-12.0, 3.7, 5.3)
-    glScalef(0.2, 1.7, 2.0)
-    glColor4fv(colors["white"])
-    glRotatef(90, 1, 0, 0)
-
-    glBegin(GL_QUADS)
-    glTexCoord2f(0.0, 0.0)
-    glVertex3f(0.0, 0.8, 0.8)
-    glTexCoord2f(1.0, 0.0)
-    glVertex3f(0.0, -0.8, 0.8)
-    glTexCoord2f(1.0, 1.0)
-    glVertex3f(0.0, -0.8, -0.8)
-    glTexCoord2f(0.0, 1.0)
-    glVertex3f(0.0, 0.8, -0.8)
-
-    glEnd()
-
+    glScalef(0.2, 2.5, 3.2)
+    glColor4fv(colors["gray"])
+    glutSolidCube(1.0)
     glPopMatrix()
-
-    glDisable(GL_TEXTURE_2D)
 
 def draw_table1(table):
 
@@ -828,7 +839,8 @@ def draw_sphere():
 
 
 def draws():
-    draw_walls() #chamada da função floor
+    draw_walls1(textures["ceil"]) #chamada da função floor
+    draw_walls2()
     draw_floor(textures["floor"])
     draw_table1(textures["table"])
     draw_board(textures["board"])
@@ -844,7 +856,7 @@ def draws():
     draw_notebook2(textures["notebook2"])
     draw_notebook3(textures["notebook3"])
     draw_door()
-    draw_viga(textures["viga"])
+    draw_viga()
     draw_ceil(textures["ceil"])
     draw_fan_blades1()
     draw_fan_blades2()
@@ -982,7 +994,6 @@ def func_textures():
     textures["ceil"] = load_texture("textures\\parede1.jpg")
     textures["board"] = load_texture("textures\\board.png")
     textures["table"] = load_texture("textures\\mesa.jpg")
-    textures["viga"] = load_texture("textures\\parede1.jpg")
 
 def main():
 
