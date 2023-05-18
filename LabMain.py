@@ -269,8 +269,8 @@ def animate_door(open):
 
 def draw_viga():
     glPushMatrix()
-    glTranslatef(-12.0, 3.7, 4.2)
-    glScalef(0.2, 2.5, 5)
+    glTranslatef(-12.0, 3.7, 5.3)
+    glScalef(0.2, 2.5, 3.2)
     glColor4fv(colors["gray"])
     glutSolidCube(1.0)
     glPopMatrix()
