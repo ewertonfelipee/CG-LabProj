@@ -32,7 +32,9 @@ textures = {
     "floor" : None,
     "ceil" : None,
     "board" : None,
-    "table" : None
+    "table" : None,
+    "viga" : None,
+    "wall_board" : None
 }
 
 def draw_ceil(ceil):
@@ -133,7 +135,7 @@ def draw_walls1(wall_texture):
 
     glDisable(GL_TEXTURE_2D)
 
-def draw_walls2():
+def draw_walls2(wall_board):
     # Criação do plano na face esquerda
     #parte de baixo na face esquerda
     glPushMatrix()
@@ -176,12 +178,31 @@ def draw_walls2():
     glPopMatrix()
 
     # Criação do plano na face direita
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, wall_board)
     glPushMatrix()
     glColor4fv(colors["gray"])
     glTranslatef(-12.0, 0, -1.5)
-    glScalef(1, 50, 52)
-    glutSolidCube(UNIT_PIXEL * 1)
+    glScalef(1, 10, 6.5)
+    glColor4fv(colors["white"])
+    glRotatef(90, 1, 0, 0)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(0.0, 0.8, 0.8)
+    glTexCoord2f(4.0, 0.0)
+    glVertex3f(0.0, -0.8, 0.8)
+    glTexCoord2f(4.0, 4.0)
+    glVertex3f(0.0, -0.8, -0.8)
+    glTexCoord2f(0.0, 4.0)
+    glVertex3f(0.0, 0.8, -0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
 
 window_direction = 1
 window_angle = 0.0
@@ -298,13 +319,32 @@ def animate_door(open):
         else:
             start_time = None
 
-def draw_viga():
+def draw_viga(viga):
+    glEnable(GL_TEXTURE_2D)
+
+    glBindTexture(GL_TEXTURE_2D, viga)
+
     glPushMatrix()
     glTranslatef(-12.0, 3.7, 5.3)
-    glScalef(0.2, 2.5, 3.2)
-    glColor4fv(colors["gray"])
-    glutSolidCube(1.0)
+    glScalef(0.2, 1.7, 2.0)
+    glColor4fv(colors["white"])
+    glRotatef(90, 1, 0, 0)
+
+    glBegin(GL_QUADS)
+    glTexCoord2f(0.0, 0.0)
+    glVertex3f(0.0, 0.8, 0.8)
+    glTexCoord2f(1.0, 0.0)
+    glVertex3f(0.0, -0.8, 0.8)
+    glTexCoord2f(1.0, 1.0)
+    glVertex3f(0.0, -0.8, -0.8)
+    glTexCoord2f(0.0, 1.0)
+    glVertex3f(0.0, 0.8, -0.8)
+
+    glEnd()
+
     glPopMatrix()
+
+    glDisable(GL_TEXTURE_2D)
 
 def draw_table1(table):
 
@@ -840,7 +880,7 @@ def draw_sphere():
 
 def draws():
     draw_walls1(textures["ceil"]) #chamada da função floor
-    draw_walls2()
+    draw_walls2(textures["wall_board"])
     draw_floor(textures["floor"])
     draw_table1(textures["table"])
     draw_board(textures["board"])
@@ -856,7 +896,7 @@ def draws():
     draw_notebook2(textures["notebook2"])
     draw_notebook3(textures["notebook3"])
     draw_door()
-    draw_viga()
+    draw_viga(textures["viga"])
     draw_ceil(textures["ceil"])
     draw_fan_blades1()
     draw_fan_blades2()
@@ -994,6 +1034,8 @@ def func_textures():
     textures["ceil"] = load_texture("textures\\parede1.jpg")
     textures["board"] = load_texture("textures\\board.png")
     textures["table"] = load_texture("textures\\mesa.jpg")
+    textures["viga"] = load_texture("textures\\parede1.jpg")
+    textures["wall_board"] = load_texture("textures\\parede1.jpg")
 
 def main():
 
